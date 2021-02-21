@@ -1,24 +1,28 @@
 package com.example.koombeatest.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.koombeatest.R
 import com.example.koombeatest.databinding.MediumImageItemBinding
 import kotlinx.android.synthetic.main.medium_image_item.view.*
 import timber.log.Timber
 
-class HorizontalPostAdapter (private val onClickListener: OnClickListener) : ListAdapter<String, HorizontalPostAdapter.HorizontalPostViewHolder>(DiffCallback) {
+class HorizontalPostAdapter (private val pictureList: List<String>,
+                             private val onClickListener: OnClickListener) :
+    ListAdapter<String, HorizontalPostAdapter.HorizontalPostViewHolder>(DiffCallback) {
 
-    lateinit var pictureList : List<String>
+    //lateinit var pictureList : List<String>
 
-    constructor(pictureList: List<String>) : this(OnClickListener {  }) {
-        Timber.d("Constructor pictureList: ${pictureList}")
-        this.pictureList = pictureList
+    /*
+    constructor(pictureList: List<String>, onClickListener: () -> Unit) : this(OnClickListener { }) {
+        Timber.d("Constructor pictureList: $pictureList")
+        //this.pictureList = pictureList
     }
+    */
 
     class HorizontalPostViewHolder(private var binding: MediumImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

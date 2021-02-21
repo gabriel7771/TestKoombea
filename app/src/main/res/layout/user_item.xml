@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:cardCornerRadius="0dp"
-        app:cardElevation="4dp"
+        app:cardElevation="0dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="8dp"
         >
@@ -27,8 +27,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             >
 
             <androidx.constraintlayout.widget.Guideline
@@ -82,6 +82,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:text="@{userData.name}"
+                android:textSize="@dimen/name_text_size"
                 app:layout_constraintStart_toEndOf="@+id/profile_picture"
                 app:layout_constraintTop_toTopOf="@+id/top_guideline"
                 tools:text="Helen Taylor" />
@@ -92,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@{userData.email}"
+                android:textSize="@dimen/email_text_size"
                 app:layout_constraintBottom_toTopOf="@+id/big_image_view"
                 app:layout_constraintStart_toEndOf="@+id/profile_picture"
                 app:layout_constraintTop_toBottomOf="@+id/name"

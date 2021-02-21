@@ -1,9 +1,11 @@
 package com.example.koombeatest.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -12,6 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.koombeatest.R
 import com.example.koombeatest.adapters.UserPostsAdapter
 import com.example.koombeatest.databinding.FragmentUserPostsBinding
+import com.example.koombeatest.databinding.PopupImageBinding
+import com.example.koombeatest.ui.dialogs.PopupImageDialog
+import com.example.koombeatest.utils.Resource
+import com.example.koombeatest.utils.Status
+import com.example.koombeatest.utils.addBlurEffect
+import jp.wasabeef.blurry.Blurry
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -55,17 +63,21 @@ class UserPostsFragment @Inject constructor(
         viewModel?.userPosts?.observe(viewLifecycleOwner, {
             Timber.d("Data arrived to the fragment: %s", it.data)
             it.data?.let { userPost -> userPostsAdapter.submitListDiffer(userPost.data) }
+            if(it.status == Status.ERROR){
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+            }
         })
     }
 
     private fun setupRecyclerView(){
         binding.userPostsRv.apply {
             adapter = UserPostsAdapter(UserPostsAdapter.OnClickListener{
-                Timber.d("Clicked on: $it")
+                Timber.d("Clicked on big picture: ${it.post.pics[0]}")
+                addBlurEffect(binding.root)
+                PopupImageDialog(requireContext(), it.post.pics[0], binding.root).show()
             })
             userPostsAdapter = adapter as UserPostsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-
     }
 }

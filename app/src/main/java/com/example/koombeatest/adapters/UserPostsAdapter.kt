@@ -4,13 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
-import com.example.koombeatest.R
 import com.example.koombeatest.data.remote.Data
-import com.example.koombeatest.data.remote.UserPosts
 import com.example.koombeatest.databinding.UserItemBinding
+import com.example.koombeatest.ui.dialogs.PopupImageDialog
 import com.example.koombeatest.utils.CustomItemDecorator
+import com.example.koombeatest.utils.addBlurEffect
 import com.example.koombeatest.utils.shortDate
 import kotlinx.android.synthetic.main.user_item.view.*
 import timber.log.Timber
@@ -87,7 +86,11 @@ class UserPostsAdapter (private val onClickListener: OnClickListener) : ListAdap
     }
 
     private fun setupInnerHorizontalRV(recyclerView: RecyclerView, context: Context, list: List<String>){
-        val horizontalPostAdapter = HorizontalPostAdapter(list)
+        val horizontalPostAdapter = HorizontalPostAdapter(list, HorizontalPostAdapter.OnClickListener { picture ->
+            Timber.d("Clicked on medium picture: $picture")
+            addBlurEffect(recyclerView.rootView)
+            PopupImageDialog(context, picture, recyclerView.rootView).show()
+        } )
         recyclerView.adapter = horizontalPostAdapter
         if(recyclerView.itemDecorationCount == 0) {
             recyclerView.addItemDecoration(CustomItemDecorator(0, 0))
@@ -96,6 +99,7 @@ class UserPostsAdapter (private val onClickListener: OnClickListener) : ListAdap
             override fun checkLayoutParams(lp: RecyclerView.LayoutParams?): Boolean {
                 Timber.d("Width: $width")
                 lp?.width = (width * 0.48).toInt()
+                lp?.height = (width * 0.48).toInt()
                 return true
             }
         }

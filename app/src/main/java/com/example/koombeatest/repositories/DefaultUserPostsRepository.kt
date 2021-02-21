@@ -1,5 +1,6 @@
 package com.example.koombeatest.repositories
 
+import android.content.Context
 import com.couchbase.lite.*
 import com.example.koombeatest.data.UserPostsApi
 import com.example.koombeatest.data.remote.Data
@@ -15,6 +16,9 @@ import com.example.koombeatest.utils.Constants.PROFILE_PIC_TAG
 import com.example.koombeatest.utils.Constants.UID_TAG
 import com.example.koombeatest.utils.Constants.USER_POSTS_DATABASE_NAME
 import com.example.koombeatest.utils.Resource
+import com.example.koombeatest.utils.Status
+import com.example.koombeatest.utils.isConnectedToInternet
+import com.example.koombeatest.R
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
@@ -22,7 +26,7 @@ import javax.inject.Named
 class DefaultUserPostsRepository @Inject constructor(
     private val userPostsApi: UserPostsApi,
     private val userPostsDatabase: Database,
-    @Named(INTERNET_VALIDATION) val hasInternet: Boolean
+    private val context: Context
 ) : UserPostsRepository {
 
     override suspend fun insertUserPosts(userPosts: UserPosts) {
@@ -72,7 +76,7 @@ class DefaultUserPostsRepository @Inject constructor(
         return if (dataList.size>0){
             Resource.success(UserPosts(dataList))
         } else {
-            Resource.error("No data found in database", null)
+            Resource.error(context.resources.getString(R.string.no_data_found_in_db), null)
         }
     }
 
@@ -87,9 +91,9 @@ class DefaultUserPostsRepository @Inject constructor(
             if(response.isSuccessful){
                 response.body()?.let {
                     return@let Resource.success(it)
-                } ?:Resource.error("Body of response is null", null)
+                } ?:Resource.error(context.resources.getString(R.string.unknown_error), null)
             } else {
-                return Resource.error("An unknown error occurred", null)
+                return Resource.error(context.resources.getString(R.string.unknown_error), null)
             }
         } catch (e: Exception) {
             return Resource.error("Couldn't reach the server. Check your internet connection", null)
@@ -97,7 +101,7 @@ class DefaultUserPostsRepository @Inject constructor(
     }
 
     override suspend fun getUserPosts() : Resource<UserPosts> {
-        return if(hasInternet) {
+        return if(isConnectedToInternet(context)) {
             Timber.d("Has internet connection")
             val posts = getRemoteUserPosts()
             posts.data?.let {
@@ -106,7 +110,10 @@ class DefaultUserPostsRepository @Inject constructor(
             getLocalUserPosts()
         } else {
             Timber.d("No internet connection")
-            getLocalUserPosts()
+            getLocalUserPosts().apply {
+                status = Status.ERROR
+                message = context.resources.getString(R.string.no_internet)
+            }
         }
     }
 }

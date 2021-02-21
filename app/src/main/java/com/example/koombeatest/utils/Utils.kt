@@ -5,6 +5,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.text.format.DateFormat
+import android.view.View
+import android.view.ViewGroup
+import jp.wasabeef.blurry.Blurry
 import timber.log.Timber
 import java.util.*
 
@@ -34,4 +37,12 @@ fun shortDate(date: String) : String{
         return java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(date)).toString()
     } catch (e:Exception){}
     return date
+}
+
+fun addBlurEffect(view: View?) {
+    Blurry.with(view?.context).radius(25).sampling(2).onto(view as ViewGroup?)
+}
+
+fun removeBlurEffect(view: View?) {
+    Blurry.delete(view as ViewGroup)
 }
