@@ -1,4 +1,4 @@
-package com.example.pruebakoombea
+package com.example.koombeatest
 
 import org.junit.Test
 
