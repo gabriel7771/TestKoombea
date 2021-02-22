@@ -28,6 +28,7 @@
             android:id="@+id/user_posts_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
             app:listData="@{viewModel.userPosts.data.data}"
             tools:itemCount="10"
             tools:listitem="@layout/user_item"/>

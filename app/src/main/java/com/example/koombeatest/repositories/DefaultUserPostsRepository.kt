@@ -30,7 +30,6 @@ class DefaultUserPostsRepository @Inject constructor(
 ) : UserPostsRepository {
 
     override suspend fun insertUserPosts(userPosts: UserPosts) {
-
         for(data in userPosts.data) {
             val document = HashMap<String, Any>()
 
@@ -78,10 +77,6 @@ class DefaultUserPostsRepository @Inject constructor(
         } else {
             Resource.error(context.resources.getString(R.string.no_data_found_in_db), null)
         }
-    }
-
-    override suspend fun deleteAllUserPosts() {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getRemoteUserPosts(): Resource<UserPosts> {

@@ -5,6 +5,8 @@ object Constants {
 
     const val USER_POSTS_DATABASE_NAME = "user_posts_db"
 
+    const val USER_POSTS_DATABASE_NAME_TEST = USER_POSTS_DATABASE_NAME+"_test"
+
     const val UID_TAG = "uid"
     const val NAME_TAG = "name"
     const val EMAIL_TAG = "email"

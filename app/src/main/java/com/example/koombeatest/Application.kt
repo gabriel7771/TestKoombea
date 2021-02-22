@@ -9,7 +9,7 @@ import timber.log.Timber
 class Application : Application() {
     override fun onCreate() {
         super.onCreate()
-        CouchbaseLite.init(this.applicationContext)
+        //CouchbaseLite.init(this.applicationContext)
         if(BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

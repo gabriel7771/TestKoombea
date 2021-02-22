@@ -10,8 +10,6 @@ interface UserPostsRepository {
 
     suspend fun getLocalUserPosts() : Resource<UserPosts>
 
-    suspend fun deleteAllUserPosts()
-
     suspend fun getRemoteUserPosts() : Resource<UserPosts>
 
     suspend fun getUserPosts() : Resource<UserPosts>

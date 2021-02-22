@@ -3,6 +3,7 @@ package com.example.koombeatest.di
 import android.content.Context
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.couchbase.lite.CouchbaseLite
 import com.couchbase.lite.Database
 import com.couchbase.lite.DatabaseConfiguration
 import com.example.koombeatest.R
@@ -49,6 +50,7 @@ object AppModule {
     fun provideUserPostsDatabase(
         @ApplicationContext context: Context
     ) : Database {
+        CouchbaseLite.init(context)
         val config = DatabaseConfiguration()
         config.directory = String.format("%s/%s", context.filesDir, USER_POSTS_DATABASE_NAME)
         return Database(USER_POSTS_DATABASE_NAME, config)
