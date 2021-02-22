@@ -66,6 +66,26 @@ class UserPostsFragment @Inject constructor(
             if(it.status == Status.ERROR){
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
             }
+            if(it.data == null){
+                startShimmer()
+            }
+        })
+        viewModel?.status?.observe(viewLifecycleOwner, {
+            when(it) {
+                Status.LOADING -> {
+                    Timber.d("Loading")
+                    startShimmer()
+                }
+                Status.ERROR -> {
+                    Timber.d("Loading error")
+                    startShimmer()
+                }
+                Status.SUCCESS -> {
+                    Timber.d("Loading complete")
+                    stopShimmer()
+                }
+                else -> {}
+            }
         })
     }
 
@@ -79,5 +99,17 @@ class UserPostsFragment @Inject constructor(
             userPostsAdapter = adapter as UserPostsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun startShimmer(){
+        binding.userPostsRv.visibility = View.GONE
+        binding.shimmerLayout.visibility = View.VISIBLE
+        binding.shimmerLayout.startShimmer()
+    }
+
+    private fun stopShimmer(){
+        binding.userPostsRv.visibility = View.VISIBLE
+        binding.shimmerLayout.visibility = View.GONE
+        binding.shimmerLayout.stopShimmer()
     }
 }

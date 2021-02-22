@@ -37,7 +37,7 @@ class PopupImageDialog(context: Context, private val pictureUrl: String, private
         window?.decorView?.getWindowVisibleDisplayFrame(displayRect)
         window?.setLayout(
             (displayRect.width() * 0.9f).toInt(),
-            (displayRect.height() * 0.9f).toInt()
+            (displayRect.width() * 0.9f).toInt()
         )
         window?.setGravity(Gravity.CENTER)
         window?.callback = windowCallback

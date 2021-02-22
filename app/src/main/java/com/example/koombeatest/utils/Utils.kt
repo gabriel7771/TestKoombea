@@ -4,11 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.text.format.DateFormat
 import android.view.View
 import android.view.ViewGroup
 import jp.wasabeef.blurry.Blurry
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun isConnectedToInternet(context: Context) : Boolean {
@@ -34,8 +34,9 @@ fun isConnectedToInternet(context: Context) : Boolean {
 fun shortDate(date: String) : String{
     Timber.d("Date: %s", date)
     try {
-        return java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(date)).toString()
-    } catch (e:Exception){}
+        val d = date.split(" ").slice(listOf(1, 2, 3))
+        return d.joinToString(" ")
+    } catch (e: Exception){}
     return date
 }
 
